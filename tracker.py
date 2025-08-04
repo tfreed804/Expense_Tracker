@@ -51,7 +51,7 @@ def add_expense():  #function that allows the user to add an expense
 
     print("Expense successfully recorded!\n")
 
-def edit_expense():
+def edit_expense():     #function to handle editing previous expenses
     with open(csv_file, "r") as file:
         my_reader = csv.reader(file)
         next(my_reader)
