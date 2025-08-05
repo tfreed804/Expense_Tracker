@@ -101,7 +101,7 @@ def edit_expense():     #function to handle editing previous expenses
         new_amount = input(f"Enter new amount [{selected_row[2]}]: ")
 
         if new_amount == "":
-            new_amount = selected_row[2]
+            floated_new_amount = float(selected_row[2])
             break
 
         try:
