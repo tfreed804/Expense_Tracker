@@ -6,7 +6,7 @@ import csv
 from datetime import datetime
 
 #define the file path and file header
-csv_file = "data/expenses.csv"
+csv_file = "Expense_Tracker/data/expenses.csv"
 header = ["date", "category", "amount", "description"]
 
 #Ensure the directory exists
