@@ -18,12 +18,18 @@ def ensure_csv_initialized():
             my_writer = csv.writer(file)
             my_writer.writerow(header)
 
+#Function to clear screen between function calls
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+
 def add_expense():  #function that allows the user to add an expense
+    clear_screen()
     while True: #loop to prompt user for the expense date until valid input is received
         try:
             date = input("Enter the date of this expense (MM/DD/YYYY format): ")    
             date_format = "%m/%d/%Y"
             correct_date = datetime.strptime(date, date_format)
+            formatted_date = correct_date.strftime("%Y-%m-%d")
             break
         except ValueError:
             print("Your date format is incorrect. Try again.")
@@ -39,11 +45,13 @@ def add_expense():  #function that allows the user to add an expense
             break
         except ValueError:
             print("Your input was invalid, try again.")
+            input("Press Enter to continue...")
+            clear_screen()
             continue
 
     description = input("Enter a general description of this expense: ").strip()    #prompt user for the expense description
 
-    new_row = [date, category, float_amount, description]   #save user inputs to a list that will be written to the file in a new row
+    new_row = [formatted_date, category, float_amount, description]   #save user inputs to a list that will be written to the file in a new row
 
     with open(csv_file, "a", newline="") as file:
         my_writer = csv.writer(file)
@@ -51,7 +59,10 @@ def add_expense():  #function that allows the user to add an expense
 
     print("Expense successfully recorded!\n")
 
+    input("\nPress Enter to return to the main menu...")
+
 def edit_expense():     #function to handle editing previous expenses
+    clear_screen()
     with open(csv_file, "r") as file:
         my_reader = csv.reader(file)
         next(my_reader)
@@ -109,6 +120,8 @@ def edit_expense():     #function to handle editing previous expenses
             break
         except ValueError:
             print("Invalid amount. Please enter a valid number.")
+            input("Press Enter to continue...")
+            continue
 
     #Description
     new_description = input(f"Enter new description [{selected_row[3]}]: ")
@@ -127,7 +140,10 @@ def edit_expense():     #function to handle editing previous expenses
 
     print("\nExpense updated successfully!\n")
 
+    input("\nPress Enter to return to the main menu...")
+
 def delete_expense():   #function that allows the removal of an expense
+    clear_screen()
     with open(csv_file, "r") as file:
         my_reader = csv.reader(file)
         next(my_reader)     #skips the header line
@@ -150,6 +166,8 @@ def delete_expense():   #function that allows the removal of an expense
                 return
         except ValueError:
             print("Invalid input. Please enter a valid expense number.")
+            input("Press Enter to continue...")
+            clear_screen()
             return
     
     with open(csv_file, "w", newline="") as file:
@@ -157,9 +175,12 @@ def delete_expense():   #function that allows the removal of an expense
         my_writer.writerow(header)
         my_writer.writerows(rows)
 
-    print("Expense deleted successfully!")
+    print("Expense deleted successfully!\n")
+
+    input("\nPress Enter to return to the main menu...")
 
 def view_expenses(): #function that allows the user to view added expenses
+    clear_screen()
     with open(csv_file, "r") as file:
         my_reader = csv.reader(file)
         next(my_reader)     #this line will skip the header when reading the file
@@ -168,9 +189,26 @@ def view_expenses(): #function that allows the user to view added expenses
         if not rows:
             print("No expenses recorded yet")
             return
+        
+        # Print table headers
+        print(f"{'Date':<12} {'Category':<15} {'Amount':<10} Description")
+        print("-" * 60)
 
+        #print rows
         for row in rows:
-            print(f"Date: {row[0]} | Category: {row[1]} | Amount: ${float(row[2]):.2f} | Description: {row[3]}")
+            #convert date for a nicer display
+            date_obj = datetime.strptime(row[0], "%Y-%m-%d")
+            pretty_date = date_obj.strftime("%b %d, %Y")
+
+            #Display row
+            print(f"{pretty_date:<12} {row[1]:<15} ${float(row[2]):<10.2f} {row[3]}")
+
+        #Display sum of all expenses
+        total = sum(float(row[2]) for row in rows)
+        print("-" * 60)
+        print(f"{'Total':<27} ${total:.2f}")
+
+        input("\nPress Enter to return to the main menu...")
 
 
 #Above this line - functions utilized by the program
@@ -178,6 +216,7 @@ def view_expenses(): #function that allows the user to view added expenses
 
 while True:     #This is the loop that will allow the program to run continuosly until the user chooses to exit
     ensure_csv_initialized()
+    clear_screen()
     
     print("\nWelcome to the Expense Tracker! Please select an option to proceed.\n")
     
