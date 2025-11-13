@@ -30,18 +30,18 @@ def add_expense():  #function that allows the user to add an expense
             continue
 
 
-    category = input("Enter the category of this expense: ")    #prompt user for the expense category
+    category = input("Enter the category of this expense: ").strip().title()    #prompt user for the expense category
 
     while True: #loop to prompt the user for expense amount until valid input is received
         try:
             amount = input("Enter the amount spent on this expense (including cents): ")
-            float_amount = float(amount)
+            float_amount = round(float(amount), 2)
             break
         except ValueError:
             print("Your input was invalid, try again.")
             continue
 
-    description = input("Enter a general description of this expense: ")    #prompt user for the expense description
+    description = input("Enter a general description of this expense: ").strip()    #prompt user for the expense description
 
     new_row = [date, category, float_amount, description]   #save user inputs to a list that will be written to the file in a new row
 
