@@ -70,6 +70,7 @@ def edit_expense():     #function to handle editing previous expenses
 
         if not rows:
             print("No expenses to edit.")
+            input("\nPress Enter to continue...")
             return
 
         for index, row in enumerate(rows):
@@ -151,6 +152,7 @@ def delete_expense():   #function that allows the removal of an expense
 
         if not rows:    #prints message if now expenses have been added yet
             print("No expenses to delete.")
+            input("\nPress Enter to continue...")
             return
 
         for index, row in enumerate(rows):
@@ -188,6 +190,7 @@ def view_expenses(): #function that allows the user to view added expenses
 
         if not rows:
             print("No expenses recorded yet")
+            input("\nPress Enter to continue...")
             return
         
         # Print table headers
