@@ -29,7 +29,7 @@ def add_expense():  #function that allows the user to add an expense
             date = input("Enter the date of this expense (MM/DD/YYYY format): ")    
             date_format = "%m/%d/%Y"
             correct_date = datetime.strptime(date, date_format)
-            formatted_date = correct_date.strftime("%Y-%m-%d")
+            formatted_date = correct_date.strftime("%m/%d/%Y")
             break
         except ValueError:
             print("Your date format is incorrect. Try again.")
@@ -200,7 +200,7 @@ def view_expenses(): #function that allows the user to view added expenses
         #print rows
         for row in rows:
             #convert date for a nicer display
-            date_obj = datetime.strptime(row[0], "%Y-%m-%d")
+            date_obj = datetime.strptime(row[0], "%m/%d/%Y")
             pretty_date = date_obj.strftime("%b %d, %Y")
 
             #Display row
